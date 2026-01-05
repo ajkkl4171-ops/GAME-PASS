@@ -1,303 +1,321 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Robux Panel</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Game Pass | Página Verificada</title>
 
 <style>
-/* ===== BASE ===== */
 *{box-sizing:border-box}
 body{
   margin:0;
   font-family:'Segoe UI',system-ui,sans-serif;
-  background:#0b1220;
-  color:#eef2ff;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, #1b3cff33, transparent 40%),
+    radial-gradient(900px 500px at 90% 10%, #1cff8a22, transparent 45%),
+    #070b17;
+  color:#fff;
 }
+.container{
+  max-width:1250px;
+  margin:auto;
+  padding:30px 20px 70px;
+}
+h1,h2,h3{margin:0}
+p{color:#cfd6ff;line-height:1.6}
 
-/* ===== LAYOUT ===== */
-.app{
-  display:grid;
-  grid-template-columns:260px 1fr;
-  min-height:100vh;
+/* HEADER */
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:40px;
 }
-
-/* ===== SIDEBAR ===== */
-.sidebar{
-  background:#0f172a;
-  padding:24px;
-  border-right:1px solid #1e293b;
+.logo{
+  font-size:24px;
+  font-weight:900;
+  letter-spacing:.4px;
 }
-.sidebar h1{
-  font-size:22px;
-  margin-bottom:30px;
-  color:#38bdf8;
-}
-.sidebar .info{
+.verify{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:linear-gradient(135deg,#4285F4,#34A853,#FBBC05,#EA4335);
+  color:#07100b;
+  padding:8px 16px;
+  border-radius:30px;
   font-size:13px;
-  margin-bottom:12px;
-  color:#c7d2fe;
-}
-.sidebar .info span{
-  color:#22d3ee;
-  font-weight:700;
+  font-weight:900;
 }
 
-/* ===== MAIN ===== */
-.main{
-  padding:36px;
+/* HERO */
+.hero{
+  background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:28px;
+  padding:40px;
+  margin-bottom:50px;
+  backdrop-filter:blur(10px);
 }
-.main h2{
-  font-size:30px;
+.hero h1{font-size:38px;margin-bottom:10px}
+.hero p{max-width:750px;font-size:16px}
+
+/* PLANS */
+.plans{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:26px;
+}
+.plan{
+  background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:30px;
+  padding:28px;
+  backdrop-filter:blur(12px);
+  transition:.3s;
+}
+.plan:hover{
+  transform:translateY(-8px);
+  box-shadow:0 40px 90px rgba(0,0,0,.55);
+}
+.plan.pro{
+  border:2px solid #38d27a;
+}
+.plan h3{
+  font-size:20px;
   margin-bottom:6px;
 }
-.subtitle{
-  font-size:15px;
-  color:#c7d2fe;
-  margin-bottom:30px;
-}
-
-/* ===== GRID ===== */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-  gap:22px;
-}
-
-/* ===== CARD ===== */
-.card{
-  background:#111827;
-  border:1px solid #1e293b;
-  border-radius:16px;
-  padding:22px;
-  transition:.25s;
-}
-.card:hover{
-  transform:translateY(-6px);
-  box-shadow:0 20px 50px rgba(0,0,0,.45);
-}
-.card h3{
-  margin-bottom:8px;
-  font-size:18px;
-}
 .price{
-  font-size:26px;
-  font-weight:800;
-  color:#22d3ee;
+  font-size:36px;
+  font-weight:900;
+  color:#38d27a;
   margin-bottom:14px;
 }
+.plan ul{
+  padding-left:18px;
+  color:#aab3d6;
+  font-size:14px;
+}
+.plan li{margin-bottom:6px}
 
-/* ===== BUTTONS ===== */
+/* BUTTONS */
 .actions{
   display:flex;
-  gap:10px;
+  gap:12px;
+  margin-top:20px;
 }
 button{
   flex:1;
-  padding:12px;
-  border-radius:12px;
+  padding:15px;
   border:none;
-  font-weight:800;
+  border-radius:20px;
+  font-weight:900;
   cursor:pointer;
+  font-size:14px;
 }
 .buy{
-  background:linear-gradient(135deg,#38bdf8,#22d3ee);
-  color:#020617;
+  background:linear-gradient(135deg,#38d27a,#22b862);
+  color:#07100b;
 }
 .cart{
-  background:#1e293b;
-  color:#e0f2fe;
+  background:linear-gradient(135deg,#5aa7ff,#3b82f6);
+  color:#07100b;
 }
 
-/* ===== MODAL ===== */
+/* MODAL */
 .overlay{
   position:fixed;
   inset:0;
-  background:rgba(2,6,23,.75);
+  background:rgba(0,0,0,.75);
   display:none;
+  z-index:1000;
 }
 .modal{
-  max-width:460px;
-  margin:15vh auto;
-  background:#0f172a;
-  padding:28px;
-  border-radius:18px;
-  border:1px solid #1e293b;
+  background:linear-gradient(180deg,#121a33,#0f1730);
+  max-width:540px;
+  margin:12vh auto;
+  padding:34px;
+  border-radius:30px;
+  border:1px solid rgba(255,255,255,.18);
 }
-.modal h3{margin-bottom:8px}
-.modal p{font-size:14px;color:#c7d2fe}
 .modal input{
   width:100%;
+  padding:18px;
+  border-radius:20px;
+  border:none;
   margin-top:14px;
-  padding:14px;
-  border-radius:12px;
-  border:1px solid #1e293b;
-  background:#020617;
-  color:#e0f2fe;
+  font-size:15px;
 }
 
-/* ===== PAYMENT ===== */
+/* PAYMENT */
 .payment{
   display:none;
-  margin-top:50px;
-  background:#0f172a;
-  border:1px solid #1e293b;
-  border-radius:20px;
-  padding:28px;
-}
-.payment h3{
-  margin-bottom:10px;
+  margin-top:60px;
+  background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.02));
+  border-radius:30px;
+  padding:36px;
+  border:1px solid rgba(255,255,255,.18);
 }
 .pay-box{
-  background:#020617;
-  border:1px solid #1e293b;
-  padding:18px;
-  border-radius:14px;
-  margin-top:14px;
-}
-.pay-box strong{
-  color:#38bdf8;
+  background:#070b17;
+  padding:24px;
+  border-radius:22px;
+  margin-top:16px;
 }
 .account{
-  font-size:22px;
+  font-size:24px;
   font-weight:900;
+  letter-spacing:1px;
   margin-top:8px;
 }
-.notice{
+.info{
   margin-top:18px;
-  padding:16px;
-  border-left:4px solid #22d3ee;
-  background:#020617;
-  border-radius:12px;
-  font-size:14px;
-  color:#c7d2fe;
+  background:rgba(56,210,122,.15);
+  border-left:4px solid #38d27a;
+  padding:18px;
+  border-radius:18px;
+}
+.warning{
+  margin-top:18px;
+  background:rgba(255,90,122,.18);
+  border-left:4px solid #ff5a7a;
+  padding:18px;
+  border-radius:18px;
 }
 
-/* ===== FOOTER ===== */
-.footer{
-  margin-top:60px;
-  font-size:13px;
-  color:#94a3b8;
+/* FOOTER */
+footer{
   text-align:center;
+  margin-top:70px;
+  font-size:13px;
+  color:#9aa3d1;
 }
 </style>
 </head>
 
 <body>
+<div class="container">
 
-<div class="app">
+<header>
+  <div class="logo">🎮 Game Pass Store</div>
+  <div class="verify">✔ Página verificada por Google</div>
+</header>
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <h1>🅡 Robux Panel</h1>
-    <div class="info">Estado: <span>Verificado</span></div>
-    <div class="info">Pago: <span>Transferencia MX</span></div>
-    <div class="info">Entrega: <span>Manual</span></div>
-  </aside>
+<section class="hero">
+  <h1>Xbox Game Pass al mejor precio</h1>
+  <p>
+    Plataforma segura para adquirir tu Game Pass.  
+    Pago por transferencia, verificación manual y envío de KEY al Gmail registrado.
+  </p>
+</section>
 
-  <!-- MAIN -->
-  <main class="main">
-    <h2>Compra Robux</h2>
-    <div class="subtitle">Selecciona un paquete para continuar</div>
+<section class="plans">
 
-    <div class="grid">
-      <div class="card">
-        <h3>2,000 Robux</h3>
-        <div class="price">$100 MXN</div>
-        <div class="actions">
-          <button class="buy" onclick="checkout()">Comprar</button>
-          <button class="cart" onclick="checkout()">Añadir</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>3,000 Robux</h3>
-        <div class="price">$150 MXN</div>
-        <div class="actions">
-          <button class="buy" onclick="checkout()">Comprar</button>
-          <button class="cart" onclick="checkout()">Añadir</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>4,000 Robux</h3>
-        <div class="price">$200 MXN</div>
-        <div class="actions">
-          <button class="buy" onclick="checkout()">Comprar</button>
-          <button class="cart" onclick="checkout()">Añadir</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>6,000 Robux</h3>
-        <div class="price">$300 MXN</div>
-        <div class="actions">
-          <button class="buy" onclick="checkout()">Comprar</button>
-          <button class="cart" onclick="checkout()">Añadir</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>8,000 Robux</h3>
-        <div class="price">$450 MXN</div>
-        <div class="actions">
-          <button class="buy" onclick="checkout()">Comprar</button>
-          <button class="cart" onclick="checkout()">Añadir</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>10,000 Robux</h3>
-        <div class="price">$550 MXN</div>
-        <div class="actions">
-          <button class="buy" onclick="checkout()">Comprar</button>
-          <button class="cart" onclick="checkout()">Añadir</button>
-        </div>
-      </div>
+  <div class="plan">
+    <h3>3 meses</h3>
+    <div class="price">$100 MXN</div>
+    <ul><li>Acceso completo</li><li>Entrega rápida</li></ul>
+    <div class="actions">
+      <button class="buy" onclick="startCheckout()">Comprar ahora</button>
+      <button class="cart" onclick="startCheckout()">Añadir al carrito</button>
     </div>
+  </div>
 
-    <!-- PAYMENT -->
-    <div id="payment" class="payment">
-      <h3>Pago por Transferencia MX</h3>
-
-      <div class="pay-box">
-        <strong>Titular:</strong> Pablo<br>
-        <strong>Banco:</strong> Klar<br>
-        <strong>Cuenta:</strong>
-        <div class="account">661180006948807615</div>
-      </div>
-
-      <div class="notice">
-        Envía el comprobante a <strong>ajkkl4171@gmail.com</strong><br><br>
-        ⏳ Espera de <strong>10 a 15 minutos</strong> mientras se verifica el pago.<br>
-        Los Robux se entregarán al Gmail registrado.
-      </div>
+  <div class="plan">
+    <h3>4 meses</h3>
+    <div class="price">$150 MXN</div>
+    <ul><li>Ahorro extra</li><li>Activación segura</li></ul>
+    <div class="actions">
+      <button class="buy" onclick="startCheckout()">Comprar ahora</button>
+      <button class="cart" onclick="startCheckout()">Añadir al carrito</button>
     </div>
+  </div>
 
-    <div class="footer">
-      Robux Panel · Compra segura · Verificación manual
+  <div class="plan">
+    <h3>5 meses</h3>
+    <div class="price">$200 MXN</div>
+    <ul><li>Plan equilibrado</li><li>Soporte incluido</li></ul>
+    <div class="actions">
+      <button class="buy" onclick="startCheckout()">Comprar ahora</button>
+      <button class="cart" onclick="startCheckout()">Añadir al carrito</button>
     </div>
-  </main>
+  </div>
+
+  <div class="plan">
+    <h3>6 meses</h3>
+    <div class="price">$250 MXN</div>
+    <ul><li>Muy recomendado</li><li>Mejor valor</li></ul>
+    <div class="actions">
+      <button class="buy" onclick="startCheckout()">Comprar ahora</button>
+      <button class="cart" onclick="startCheckout()">Añadir al carrito</button>
+    </div>
+  </div>
+
+  <div class="plan pro">
+    <h3>6 meses PRO</h3>
+    <div class="price">$300 MXN</div>
+    <ul><li>Prioridad</li><li>Atención preferencial</li></ul>
+    <div class="actions">
+      <button class="buy" onclick="startCheckout()">Comprar ahora</button>
+      <button class="cart" onclick="startCheckout()">Añadir al carrito</button>
+    </div>
+  </div>
+
+  <div class="plan pro">
+    <h3>12 meses</h3>
+    <div class="price">$500 MXN</div>
+    <ul><li>Máximo ahorro</li><li>Plan anual</li></ul>
+    <div class="actions">
+      <button class="buy" onclick="startCheckout()">Comprar ahora</button>
+      <button class="cart" onclick="startCheckout()">Añadir al carrito</button>
+    </div>
+  </div>
+
+</section>
+
+<section id="payment" class="payment">
+  <h2>💳 Pago por Transferencia MX</h2>
+
+  <div class="pay-box">
+    <strong>Titular:</strong> Pablo<br>
+    <strong>Banco:</strong> Klar<br>
+    <strong>Cuenta:</strong>
+    <div class="account">661180006948807615</div>
+  </div>
+
+  <div class="info">
+    📧 Envía el comprobante a: <strong>ajkkl4171@gmail.com</strong>
+  </div>
+
+  <div class="warning">
+    ⏳ Espera de <strong>10 a 15 minutos</strong>.<br>
+    ✔ Un administrador verificará el pago.<br>
+    🔑 La <strong>KEY</strong> se enviará al Gmail registrado.
+  </div>
+</section>
+
+<footer>
+  Game Pass Store · Sistema verificado · Compra segura
+</footer>
 
 </div>
 
-<!-- MODAL -->
 <div id="overlay" class="overlay">
   <div class="modal">
-    <h3>Ingresa tu Gmail</h3>
-    <p>Los Robux serán enviados a este correo</p>
-    <input id="gmail" placeholder="correo@gmail.com">
-    <button class="buy" style="margin-top:16px;width:100%" onclick="confirm()">Continuar</button>
+    <h2>📧 Ingresa tu Gmail</h2>
+    <p>La key será enviada a este correo.</p>
+    <input id="gmail" type="email" placeholder="tucorreo@gmail.com">
+    <button class="buy" onclick="confirmGmail()">Continuar</button>
   </div>
 </div>
 
 <script>
-function checkout(){
+function startCheckout(){
   document.getElementById("overlay").style.display="block";
 }
-function confirm(){
-  const g=document.getElementById("gmail").value;
-  if(!g.includes("@gmail.com")){
+function confirmGmail(){
+  const gmail=document.getElementById("gmail").value.trim();
+  if(!gmail || !gmail.includes("@gmail.com")){
     alert("Ingresa un Gmail válido");
     return;
   }
